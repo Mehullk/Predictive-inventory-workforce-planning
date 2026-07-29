@@ -43,35 +43,32 @@ def render_sidebar():
             styles={
     "container": {
         "padding": "0!important",
-        "background-color": "#111827",
+        "background-color": "transparent",
     },
 
     "icon": {
-        "color": "#60A5FA",
-        "font-size": "20px",
+    "color": "#FFFFFF",
+    "font-size": "20px",
     },
 
     "nav-link": {
         "font-size": "17px",
         "font-weight": "600",
-
-        "color": "#F8FAFC",          # FIX
-
+        "color": "#F8FAFC",
         "text-align": "left",
-
-        "margin": "6px 0",
-
-        "padding": "14px",
-
-        "border-radius": "12px",
-
-        "--hover-color": "#22344D",
+        "margin": "8px 0",
+        "padding": "15px 18px",
+        "border-radius": "18px",
+        "--hover-color": "rgba(255,255,255,.06)",
+        "transition": ".25s",
     },
 
     "nav-link-selected": {
-        "background-color": "#2563EB",
-        "color": "#FFFFFF",          # FIX
-        "font-weight": "700",
+    "background": "linear-gradient(90deg,#5B9DFF 0%,#8D7DFF 50%,#EC6AA8 100%)",
+    "color": "#FFFFFF",
+    "font-weight": "700",
+    "border-radius": "20px",
+    "box-shadow": "0 10px 22px rgba(124,184,255,.25)",
     },
 }
         )

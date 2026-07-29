@@ -1,4 +1,3 @@
-import plotly.express as px
 import plotly.graph_objects as go
 
 
@@ -6,57 +5,81 @@ def apply_theme(fig):
 
     fig.update_layout(
 
-        template="plotly_dark",
+        template="plotly_white",
 
-        paper_bgcolor="#182538",
-        plot_bgcolor="#182538",
+        paper_bgcolor="white",
+        plot_bgcolor="white",
 
         font=dict(
             family="Inter",
-            color="#F8FAFC",
+            color="#24324A",
             size=14,
         ),
 
         margin=dict(
             l=20,
             r=20,
-            t=50,
+            t=60,
             b=20,
         ),
 
         title_font=dict(
-            size=20,
-            color="white",
+            size=22,
+            color="#24324A",
         ),
 
         legend=dict(
             orientation="h",
             y=1.08,
+            x=0,
             bgcolor="rgba(0,0,0,0)",
+            font=dict(
+                size=13,
+                color="#5C6E88",
+            ),
         ),
 
         hoverlabel=dict(
-            bgcolor="#22344D",
-            font_size=14,
+            bgcolor="white",
+            bordercolor="#BFD8FF",
+            font_size=13,
+            font_family="Inter",
+            font_color="#24324A",
         ),
+
+        hovermode="x unified",
 
     )
 
     fig.update_xaxes(
 
-        showgrid=True,
-        gridcolor="#2B3C52",
-        zeroline=False,
+        showgrid=False,
+
         showline=False,
+
+        zeroline=False,
+
+        tickfont=dict(
+            color="#75839D",
+        ),
 
     )
 
     fig.update_yaxes(
 
         showgrid=True,
-        gridcolor="#2B3C52",
+
+        gridcolor="#E4ECF8",
+
+        gridwidth=1,
+
         zeroline=False,
+
         showline=False,
+
+        tickfont=dict(
+            color="#75839D",
+        ),
 
     )
 
@@ -67,27 +90,12 @@ def forecast_chart(df):
 
     fig = go.Figure()
 
-    fig.add_trace(
+    forecast_col = "Forecast"
 
-        go.Scatter(
+    if "PredictedUnitsSold" in df.columns:
+        forecast_col = "PredictedUnitsSold"
 
-            x=df["Date"],
-            y=df["PredictedUnitsSold"],
-
-            mode="lines",
-
-            line=dict(
-                color="#3B82F6",
-                width=4,
-            ),
-
-            name="Forecast",
-
-        )
-
-    )
-
-    if "Upper95CI" in df.columns and "Lower95CI" in df.columns:
+    if "Upper95CI" in df.columns:
 
         fig.add_trace(
 
@@ -102,9 +110,13 @@ def forecast_chart(df):
 
                 showlegend=False,
 
+                hoverinfo="skip",
+
             )
 
         )
+
+    if "Lower95CI" in df.columns:
 
         fig.add_trace(
 
@@ -117,7 +129,7 @@ def forecast_chart(df):
 
                 fill="tonexty",
 
-                fillcolor="rgba(59,130,246,0.20)",
+                fillcolor="rgba(236,72,153,.35)",
 
                 line=dict(width=0),
 
@@ -127,8 +139,36 @@ def forecast_chart(df):
 
         )
 
+    fig.add_trace(
+
+        go.Scatter(
+
+            x=df["Date"],
+            y=df[forecast_col],
+
+            mode="lines",
+
+            name="Forecast",
+
+            line=dict(
+                color="#EC4899",
+
+                width=4,
+
+                shape="spline",
+
+                smoothing=0.6,
+
+            ),
+
+        )
+
+    )
+
     fig.update_layout(
-        title="90-Day Sales Forecast"
+
+        title="90-Day Sales Forecast",
+
     )
 
     return apply_theme(fig)
@@ -150,8 +190,15 @@ def inventory_chart(df):
             name="Closing Stock",
 
             line=dict(
-                color="#22C55E",
+
+                color="#EC4899",
+
                 width=4,
+
+                shape="spline",
+
+                smoothing=0.5,
+
             ),
 
         )
@@ -160,93 +207,61 @@ def inventory_chart(df):
 
     if "ReorderPoint" in df.columns:
 
-        if df["ReorderPoint"].nunique() == 1:
+        fig.add_trace(
 
-            fig.add_hline(
+            go.Scatter(
 
-                y=df["ReorderPoint"].iloc[0],
+                x=df["Date"],
+                y=df["ReorderPoint"],
 
-                line_color="#EF4444",
+                mode="lines",
 
-                line_dash="dash",
+                name="Reorder Point",
 
-                annotation_text="Reorder Point",
+                line=dict(
 
-            )
+                    color="#C084FC",
 
-        else:
+                    width=3,
 
-            fig.add_trace(
+                    dash="dash",
 
-                go.Scatter(
-
-                    x=df["Date"],
-                    y=df["ReorderPoint"],
-
-                    mode="lines",
-
-                    name="Reorder Point",
-
-                    line=dict(
-
-                        color="#EF4444",
-
-                        dash="dash",
-
-                        width=3,
-
-                    ),
-
-                )
+                ),
 
             )
+
+        )
 
     if "SafetyStock" in df.columns:
 
-        if df["SafetyStock"].nunique() == 1:
+        fig.add_trace(
 
-            fig.add_hline(
+            go.Scatter(
 
-                y=df["SafetyStock"].iloc[0],
+                x=df["Date"],
+                y=df["SafetyStock"],
 
-                line_color="#FACC15",
+                mode="lines",
 
-                line_dash="dot",
+                name="Safety Stock",
 
-                annotation_text="Safety Stock",
+                line=dict(
 
-            )
+                    color="#FFD166",
 
-        else:
+                    width=3,
 
-            fig.add_trace(
+                    dash="dot",
 
-                go.Scatter(
-
-                    x=df["Date"],
-                    y=df["SafetyStock"],
-
-                    mode="lines",
-
-                    name="Safety Stock",
-
-                    line=dict(
-
-                        color="#FACC15",
-
-                        dash="dot",
-
-                        width=3,
-
-                    ),
-
-                )
+                ),
 
             )
+
+        )
 
     fig.update_layout(
 
-        title="Inventory Levels"
+        title="Inventory Levels",
 
     )
 
@@ -266,7 +281,7 @@ def workforce_chart(df):
 
             name="Required Workers",
 
-            marker_color="#F59E0B",
+            marker_color="#F9A8D4",
 
         )
 
@@ -285,9 +300,13 @@ def workforce_chart(df):
 
             line=dict(
 
-                color="#3B82F6",
+                color="#A855F7",
 
                 width=4,
+
+                shape="spline",
+
+                smoothing=0.6,
 
             ),
 

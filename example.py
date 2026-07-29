@@ -1,7 +1,6 @@
-from utils.loader import inventory_report, workforce
+import streamlit as st
 
-print("Inventory Columns:")
-print(inventory_report.columns.tolist())
+st.title("Border Test")
 
-print("\nWorkforce Columns:")
-print(workforce.columns.tolist())
+with st.container(border=True):
+    st.write("This should have a border.")

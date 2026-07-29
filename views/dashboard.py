@@ -40,7 +40,7 @@ def dashboard_page():
             "Forecast Accuracy",
             f"{metrics['accuracy']:.2f}%",
             "Prophet Model",
-            "#22C55E",
+            "#D9F5E7",
             "🎯",
         )
 
@@ -49,7 +49,7 @@ def dashboard_page():
             "90-Day Forecast",
             f"{int(metrics['sales90']):,}",
             "Predicted Units",
-            "#3B82F6",
+            "#B8DBFC",
             "📈",
         )
 
@@ -58,7 +58,7 @@ def dashboard_page():
             "Service Level",
             f"{metrics['service_level']:.1f}%",
             "Inventory KPI",
-            "#22C55E",
+            "#D9F5E7",
             "📦",
         )
 
@@ -67,7 +67,7 @@ def dashboard_page():
             "Peak Workforce",
             f"{int(metrics['workers'])}",
             "Workers",
-            "#F59E0B",
+            "#FFF7C7",
             "👷",
         )
 
