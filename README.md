@@ -19,7 +19,6 @@ An enterprise decision support platform that forecasts future demand and generat
 ## Team
 
 - Mehul Khandelwal
-- Shreyashi
 
 ## Technology Stack
 
